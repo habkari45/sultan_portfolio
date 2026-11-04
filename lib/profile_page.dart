@@ -1,56 +1,104 @@
 import 'package:flutter/material.dart';
+
 import 'my_text_form_field.dart';
 import 'home_page.dart';
-import 'login_page.dart';
+import 'Sultan1/login_Page3.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+
+  final String? username;
+  final String? email;
+  final int? userId;
+
+  final String? gender;
+  final DateTime? dateOfBirth;
+
+  const ProfilePage({
+    super.key,
+    this.username,
+    this.email,
+    this.userId,
+    this.gender,
+    this.dateOfBirth,
+  });
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       appBar: AppBar(
         title: const Text(
           'My Profile',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.blue,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
       ),
 
       drawer: Drawer(
         child: Column(
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+
+            UserAccountsDrawerHeader(
+
+              accountName: Text(
+                username ?? 'Sultan Portfolio',
               ),
-              child: Center(
-                child: Text(
-                  'Sultan Portfolio',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
+
+              accountEmail: Text(
+                email ?? 'No Email',
+              ),
+
+              currentAccountPicture: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.person,
+                  size: 40,
+                  color: Colors.blue,
                 ),
+              ),
+
+              decoration: const BoxDecoration(
+                color: Colors.blue,
               ),
             ),
 
             ListTile(
-              leading: const Icon(Icons.home, color: Colors.blue),
+              leading: const Icon(
+                Icons.home,
+                color: Colors.blue,
+              ),
+
               title: const Text('Home'),
+
               onTap: () {
+
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomePage(),
+                    builder: (context) => HomePage(
+                      username: username,
+                      email: email,
+                      userId: userId,
+                      gender: gender,
+                      dateOfBirth: dateOfBirth,
+                    ),
                   ),
                 );
               },
             ),
 
             ListTile(
-              leading: const Icon(Icons.person, color: Colors.blue),
+              leading: const Icon(
+                Icons.person,
+                color: Colors.blue,
+              ),
+
               title: const Text('Profile'),
+
               onTap: () {
                 Navigator.pop(context);
               },
@@ -59,16 +107,25 @@ class ProfilePage extends StatelessWidget {
             const Spacer(),
 
             ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
+              leading: const Icon(
+                Icons.logout,
+                color: Colors.red,
+              ),
+
               title: const Text(
                 'Logout',
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(
+                  color: Colors.red,
+                ),
               ),
+
               onTap: () {
+
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
+                    builder: (context) =>
+                    const Loginscreen3(),
                   ),
                       (route) => false,
                 );
@@ -80,18 +137,23 @@ class ProfilePage extends StatelessWidget {
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
+
         child: Column(
           children: [
+
             const CircleAvatar(
               radius: 50,
-              child: Icon(Icons.person, size: 50),
+              child: Icon(
+                Icons.person,
+                size: 50,
+              ),
             ),
 
             const SizedBox(height: 15),
 
-            const Text(
-              'Sultan',
-              style: TextStyle(
+            Text(
+              username ?? 'Sultan',
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -99,9 +161,33 @@ class ProfilePage extends StatelessWidget {
 
             const SizedBox(height: 10),
 
+            Text(
+              email ?? 'No Email',
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
             const Text('Network Engineer'),
             const Text('Web Developer'),
             const Text('Flutter Developer'),
+
+            const SizedBox(height: 20),
+
+            Text(
+              'Gender: ${gender ?? "Not Selected"}',
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              dateOfBirth == null
+                  ? 'Date of Birth: Not Selected'
+                  : 'Date of Birth: ${dateOfBirth!.day}/${dateOfBirth!.month}/${dateOfBirth!.year}',
+            ),
 
             const SizedBox(height: 30),
 
@@ -118,15 +204,22 @@ class ProfilePage extends StatelessWidget {
             Form(
               child: Column(
                 children: [
-                  const MyTextFormField(name: 'Full Name'),
+
+                  const MyTextFormField(
+                    name: 'Full Name',
+                  ),
 
                   const SizedBox(height: 15),
 
-                  const MyTextFormField(name: 'Email'),
+                  const MyTextFormField(
+                    name: 'Email',
+                  ),
 
                   const SizedBox(height: 15),
 
-                  const MyTextFormField(name: 'Specialization'),
+                  const MyTextFormField(
+                    name: 'Specialization',
+                  ),
 
                   const SizedBox(height: 25),
 
@@ -135,14 +228,21 @@ class ProfilePage extends StatelessWidget {
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,
                     ),
+
                     onPressed: () {
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Profile form submitted'),
+                          content: Text(
+                            'Profile form submitted',
+                          ),
                         ),
                       );
                     },
-                    child: const Text('Save Profile'),
+
+                    child: const Text(
+                      'Save Profile',
+                    ),
                   ),
                 ],
               ),

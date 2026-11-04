@@ -3,8 +3,17 @@ import 'home_page.dart';
 import 'register_page.dart';
 import 'my_text_form_field.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  String? _gender;
+  DateTime? _dateOfBirth;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +72,10 @@ class LoginPage extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomePage(),
+                      builder: (context) => HomePage(
+                        gender: _gender,
+                        dateOfBirth: _dateOfBirth,
+                      ),
                     ),
                   );
                 },
@@ -73,14 +85,28 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 15),
 
               TextButton(
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  final result = await Navigator.push<Map<String, dynamic>>(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const RegisterPage(),
                     ),
                   );
+
+                  if (!mounted) return;
+
+                  if (result != null) {
+                    setState(() {
+                      _gender = result['gender'];
+                      _dateOfBirth = result['dateOfBirth'];
+                    });
+
+                    print('Gender: $_gender');
+                    print('Date of Birth: $_dateOfBirth');
+                  }
                 },
+
+
                 child: const Text(
                   'Create New Account (Register)',
                   style: TextStyle(
